@@ -4,18 +4,17 @@
 class Store {
 	constructor(initState = {}) {
 		this.state = initState;
-		this.itemCodeGenerator = this.generateItemCode()
+
 		const { list } = this.state
 
-		if (list) {
-			// Перебираем list, генерируем и присваиваем code элементам list'а, инициализируем selectionCounter
-			// Иммутабельность и setState нам здесь ни к чему, т.к. перерендера (как и сравнения стейтов) при инициализации не будет
-			for (const [i, el] of list.entries()) {
-				this.state.list[i] = {
-					...el,
-					code: this.itemCodeGenerator.next().value,
-					selectionCounter: 0
-				}
+		this.itemCodeGenerator =
+			this.generateItemCode(Math.max(0, ...list.map(el => el.code)))
+
+		// Перебираем list, инициализируем selectionCounter
+		for (const [i, el] of list.entries()) {
+			this.state.list[i] = {
+				...el,
+				selectionCounter: 0
 			}
 		}
 
@@ -100,8 +99,8 @@ class Store {
 		});
 	}
 
-	*generateItemCode() {
-		let i = 1;
+	* generateItemCode(base = 0) {
+		let i = base + 1;
 		while (true) {
 			yield i++
 		}

@@ -2,6 +2,8 @@ import React from 'react';
 import { createElement } from './utils.js';
 import './styles.css';
 
+import { pluralize } from './pluralize.js';
+
 /**
  * Приложение
  * @param store {Store} Состояние приложения
@@ -32,13 +34,19 @@ function App({ store }) {
 									<span>
 										{
 											!!item.selectionCounter &&
-											` | Выделяли ${item.selectionCounter} раз`
-											// раз/раза хорошо бы менять в зависимости от числа, но это не тема урока
+											` | Выделяли ${item.selectionCounter} ` +
+											pluralize(item.selectionCounter, 'раз', ['', 'а'])
 										}
 									</span>
 								</div>
 								<div className="Item-actions">
-									<button onClick={() => store.deleteItem(item.code)}>Удалить</button>
+									<button onClick={(e) => {
+										e.stopPropagation()
+										store.deleteItem(item.code)
+									}}
+									>
+										Удалить
+									</button>
 								</div>
 							</div>
 						</div>
