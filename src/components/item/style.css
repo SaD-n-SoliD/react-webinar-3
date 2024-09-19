@@ -9,16 +9,31 @@
   color: #fff;
 }
 
-.Item-code {
+.Item__code {
   padding: 20px 10px 20px 20px;
 }
 
-.Item-title {
+.Item__info {
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   padding: 20px 10px;
+
 }
 
-.Item-actions {
+.Item__title {
+  margin-right: auto;
+}
+
+.Item__price {}
+
+.Item__count {
+  min-width: 70px;
+  margin-left: 20px;
+  text-align: right;
+}
+
+.Item__actions {
   display: flex;
   justify-content: flex-end;
   padding: 20px 20px 20px 10px;

@@ -5,7 +5,7 @@ import App from './app.js';
 import Store from './store.js';
 
 const store = new Store({
-  list: [
+  goods: [
     { code: generateCode(), title: 'Название товара', price: 100.0 },
     { code: generateCode(), title: 'Книга про React', price: 770 },
     { code: generateCode(), title: 'Конфета', price: 33 },

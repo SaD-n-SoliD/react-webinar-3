@@ -1,4 +1,3 @@
-import { generateCode } from './utils';
 
 /**
  * Хранилище состояния приложения
@@ -6,6 +5,7 @@ import { generateCode } from './utils';
 class Store {
   constructor(initState = {}) {
     this.state = initState;
+    this.state.cart = initState.cart || []
     this.listeners = []; // Слушатели изменений состояния
   }
 
@@ -40,49 +40,49 @@ class Store {
     for (const listener of this.listeners) listener();
   }
 
+  // Инкапсуляция методов работы с корзиной
+  cart = {
+    addItem: this.#addCartItem.bind(this),
+    deleteItem: this.#deleteCartItem.bind(this)
+  }
+
   /**
-   * Добавление новой записи
+   * Добавление товара в корзину по коду
+   * @param code
    */
-  addItem() {
+  #addCartItem(code) {
+    const goodsItem = this.state.goods.find(item => item.code === code)
+    if (!goodsItem) throw new Error(`Ошибка добавления товара в корзину: товара с кодом ${code} не существует!`);
+
+    const itemIndex = this.state.cart.findIndex(item => item.code === code)
+
+    // Возможно стоило использовать структуру данных MultiSet, но нужна сторонняя библиотека
+    let newCart = [...this.state.cart]
+    const cartItem = newCart[itemIndex]
+
+    itemIndex === -1 ?
+      newCart.push({ ...goodsItem, count: 1 }) :
+      newCart[itemIndex] = { ...cartItem, count: cartItem.count + 1 }
+
     this.setState({
       ...this.state,
-      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }],
+      cart: newCart
     });
   }
 
   /**
-   * Удаление записи по коду
+   * Удаление товара из корзины по коду
    * @param code
    */
-  deleteItem(code) {
+  #deleteCartItem(code) {
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code),
+      // Новый список, в котором не будет удаляемого товара
+      cart: this.state.cart.filter(item => item.code !== code),
     });
   }
 
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? { ...item, selected: false } : item;
-      }),
-    });
-  }
+
 }
 
 export default Store;

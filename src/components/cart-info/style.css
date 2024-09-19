@@ -1,0 +1,30 @@
+.cart-info {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  gap: 20px;
+}
+
+.cart-info__body {
+  display: flex;
+  align-items: center;
+}
+
+.cart-info__price {
+  min-width: 70px;
+}
+
+.cart-info__label {}
+
+.cart-info__label_inside {
+  margin-right: 20px;
+  font-weight: bold;
+}
+
+.cart-info__label_outside {
+  margin-right: 15px;
+}
+
+.cart-info__info {
+  font-weight: bold;
+}

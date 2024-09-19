@@ -1,43 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { plural } from '../../utils';
 import './style.css';
+import { withNaming } from "@bem-react/classname";
 
-function Item(props) {
-  // Счётчик выделений
-  const [count, setCount] = useState(0);
+const bem = withNaming({ n: '', e: '__', m: '_', v: '_' })
+const cn = bem('Item')
 
-  const callbacks = {
-    onClick: () => {
-      props.onSelect(props.item.code);
-      if (!props.item.selected) {
-        setCount(count + 1);
-      }
-    },
-    onDelete: e => {
-      e.stopPropagation();
-      props.onDelete(props.item.code);
-    },
-  };
+function Item({ item, showCount, actions }) {
 
   return (
     <div
-      className={'Item' + (props.item.selected ? ' Item_selected' : '')}
-      onClick={callbacks.onClick}
+      className={cn()}
     >
-      <div className="Item-code">{props.item.code}</div>
-      <div className="Item-title">
-        {props.item.title}{' '}
-        {count
-          ? ` | Выделяли ${count} ${plural(count, {
-              one: 'раз',
-              few: 'раза',
-              many: 'раз',
-            })}`
-          : ''}
+      <div className={cn("code")}>{item.code}</div>
+      <div className={cn("info")}>
+        <div className={cn("title")}>
+          {item.title}
+        </div>
+        <div className={cn("price")}>
+          {item.price.toLocaleString() + ' ₽'}
+        </div>
+        {showCount &&
+          <div className={cn("count")}>
+            {item.count.toLocaleString() + ' шт'}
+          </div>
+        }
       </div>
-      <div className="Item-actions">
-        <button onClick={callbacks.onDelete}>Удалить</button>
+      <div className={cn("actions")}>
+        {actions}
       </div>
     </div>
   );
@@ -47,16 +37,11 @@ Item.propTypes = {
   item: PropTypes.shape({
     code: PropTypes.number,
     title: PropTypes.string,
-    selected: PropTypes.bool,
+    price: PropTypes.number,
     count: PropTypes.number,
   }).isRequired,
-  onDelete: PropTypes.func,
-  onSelect: PropTypes.func,
-};
-
-Item.defaultProps = {
-  onDelete: () => {},
-  onSelect: () => {},
+  showCount: PropTypes.bool,
+  actions: PropTypes.node,
 };
 
 export default React.memo(Item);
