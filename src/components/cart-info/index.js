@@ -9,11 +9,13 @@ const cn = bem('cart-info')
 
 function CartInfo({ items, variant = 'outside', label, openCartButton, style }) {
 
-  const amount = items.reduce((acc, { count, price }) => acc + count * price, 0).toLocaleString()
+  const amount = items.reduce((acc, { count, price }) => acc + count * price, 0)
   const pluralWord = plural(items.length, { one: 'товар', few: 'товара', many: 'товаров' })
 
   const cartInfo = {
-    outside: +amount ? `${items.length.toLocaleString()} ${pluralWord} / ${amount} ₽` : 'Пусто',
+    outside: amount ?
+      `${items.length.toLocaleString()} ${pluralWord} / ${amount.toLocaleString()} ₽`
+      : 'Пусто',
     inside: `${amount} ₽`,
   }[variant]
 
