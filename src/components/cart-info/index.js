@@ -16,7 +16,7 @@ function CartInfo({ items, variant = 'outside', label, openCartButton, style }) 
     outside: amount ?
       `${items.length.toLocaleString()} ${pluralWord} / ${amount.toLocaleString()} ₽`
       : 'Пусто',
-    inside: `${amount} ₽`,
+    inside: `${amount.toLocaleString()} ₽`,
   }[variant]
 
   const labelClassName = {
