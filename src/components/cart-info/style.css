@@ -10,9 +10,6 @@
   align-items: center;
 }
 
-.cart-info__price {
-  min-width: 70px;
-}
 
 .cart-info__label {}
 
@@ -27,4 +24,9 @@
 
 .cart-info__info {
   font-weight: bold;
+}
+
+.cart-info__info_inside {
+  text-align: right;
+  min-width: 70px;
 }

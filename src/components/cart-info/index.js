@@ -13,7 +13,7 @@ function CartInfo({ items, variant = 'outside', label, openCartButton, style }) 
   const pluralWord = plural(items.length, { one: 'товар', few: 'товара', many: 'товаров' })
 
   const cartInfo = {
-    outside: `${items.length.toLocaleString()} ${pluralWord} / ${amount} ₽`,
+    outside: +amount ? `${items.length.toLocaleString()} ${pluralWord} / ${amount} ₽` : 'Пусто',
     inside: `${amount} ₽`,
   }[variant]
 
@@ -22,12 +22,16 @@ function CartInfo({ items, variant = 'outside', label, openCartButton, style }) 
     inside: cn('label', { inside: true }),
   }[variant]
 
+  const infoClassName = {
+    outside: cn('info', { outside: true }),
+    inside: cn('info', { inside: true }),
+  }[variant]
 
   return (
     <div className={cn()}>
       <div className={cn("body")} style={style}>
         <span className={labelClassName}>{label}</span>
-        <span className={cn("info")}>{cartInfo}</span>
+        <span className={infoClassName}>{cartInfo}</span>
       </div>
       {openCartButton}
     </div>
