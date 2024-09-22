@@ -15,10 +15,6 @@ function App({ store }) {
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
-  // 
-  modalIsOpen ?
-    document.body.style.overflow = 'hidden' :
-    document.body.style.overflow = 'auto'
 
   const callbacks = {
 
