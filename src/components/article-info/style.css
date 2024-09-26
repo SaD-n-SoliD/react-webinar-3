@@ -1,0 +1,13 @@
+.ArticleInfo {
+  font-size: 18px;
+  padding: 20px 40px;
+}
+
+.ArticleInfo > * {
+  margin-bottom: 20px;
+}
+
+.ArticleInfo-price {
+  font-weight: bold;
+  font-size: 24px;
+}

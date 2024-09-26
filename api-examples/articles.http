@@ -17,10 +17,10 @@ GET http://query.rest/api/v1/articles?limit=10&skip=10&fields=items(_id, title, 
 ###
 # Товар по id
 
-GET http://query.rest/api/v1/articles/65817bed5c295a2ff2fcd182
+GET http://query.rest/api/v1/articles/66d5f5b85816720f9b766f73
 
 ###
 # Товар по id с подробностями о стране и категории
 # Про формат fields смотри http://query.rest
 
-GET http://query.rest/api/v1/articles/65817bed5c295a2ff2fcd182?fields=*,madeIn(title,code),category(title)
+GET http://query.rest/api/v1/articles/66d5f5b85816720f9b766f73?fields=*,madeIn(title,code),category(title)

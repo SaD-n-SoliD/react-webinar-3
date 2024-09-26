@@ -4,9 +4,12 @@ import { numberFormat } from '../../utils';
 import { cn as bem } from '@bem-react/classname';
 import PropTypes from 'prop-types';
 import './style.css';
+import { useTranslation } from '../../store/lang/use-translation';
 
 function ItemBasket(props) {
   const cn = bem('ItemBasket');
+
+  const { t } = useTranslation()
 
   const callbacks = {
     onRemove: e => props.onRemove(props.item._id),
@@ -20,7 +23,7 @@ function ItemBasket(props) {
         <div className={cn('cell')}>{numberFormat(props.item.price)} ₽</div>
         <div className={cn('cell')}>{numberFormat(props.item.amount || 0)} шт</div>
         <div className={cn('cell')}>
-          <button onClick={callbacks.onRemove}>Удалить</button>
+          <button onClick={callbacks.onRemove}>{t('buttonDelete')}</button>
         </div>
       </div>
     </div>
@@ -30,7 +33,7 @@ function ItemBasket(props) {
 ItemBasket.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    title: PropTypes.string,
+    title: PropTypes.node,
     price: PropTypes.number,
     amount: PropTypes.number,
   }).isRequired,
@@ -38,7 +41,7 @@ ItemBasket.propTypes = {
 };
 
 ItemBasket.defaultProps = {
-  onRemove: () => {},
+  onRemove: () => { },
 };
 
 export default memo(ItemBasket);

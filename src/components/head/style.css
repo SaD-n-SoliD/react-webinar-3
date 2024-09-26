@@ -1,9 +1,18 @@
 .Head {
   height: 80px;
   background: #f5f5f5;
+  display: flex;
+  align-items: baseline;
+  box-sizing: border-box;
+  padding: 20px;
 }
 
 .Head h1 {
   margin: 0;
-  padding: 20px 20px 10px;
+}
+
+.Head .lang {
+  margin-left: auto;
+  padding: 2px;
+  outline: none;
 }

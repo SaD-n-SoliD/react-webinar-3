@@ -7,9 +7,19 @@
 }
 
 .BasketTool-label {
+  margin-left: auto;
 }
 
 .BasketTool-total {
   font-weight: bold;
   margin: 0 20px;
+}
+
+.BasketTool a {
+  color: #0087E9;
+  text-decoration: underline;
+}
+
+.BasketTool a:hover {
+  color: rgb(85, 26, 139);
 }
