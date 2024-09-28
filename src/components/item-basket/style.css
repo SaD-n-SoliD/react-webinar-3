@@ -28,3 +28,13 @@
   font-size: 18px;
   white-space: nowrap;
 }
+
+.ItemBasket a,
+.ItemBasket a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ItemBasket a:hover {
+  text-decoration: underline;
+}

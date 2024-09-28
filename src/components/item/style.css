@@ -32,3 +32,13 @@
   white-space: nowrap;
   font-size: 18px;
 }
+
+.Item a,
+.Item a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.Item a:hover {
+  text-decoration: underline;
+}
