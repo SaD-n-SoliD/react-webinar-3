@@ -3,15 +3,11 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat, plural } from '../../utils';
 import './style.css';
-import { Link } from 'react-router-dom';
-import { useTranslation } from '../../store/lang/use-translation';
 
-function BasketTool({ sum, amount, onOpen }) {
+function BasketTool({ sum, amount, openButton }) {
   const cn = bem('BasketTool');
-  const { t } = useTranslation()
   return (
     <div className={cn()}>
-      <Link to={'/'}>{t('homePage')}</Link>
       <span className={cn('label')}>В корзине:</span>
       <span className={cn('total')}>
         {amount
@@ -22,19 +18,18 @@ function BasketTool({ sum, amount, onOpen }) {
           })} / ${numberFormat(sum)} ₽`
           : `пусто`}
       </span>
-      <button onClick={onOpen}>{t('buttonOpen')}</button>
+      {openButton}
     </div>
   );
 }
 
 BasketTool.propTypes = {
-  onOpen: PropTypes.func.isRequired,
+  openButton: PropTypes.node.isRequired,
   sum: PropTypes.number,
   amount: PropTypes.number,
 };
 
 BasketTool.defaultProps = {
-  onOpen: () => { },
   sum: 0,
   amount: 0,
 };

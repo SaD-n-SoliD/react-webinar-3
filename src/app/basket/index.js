@@ -29,15 +29,15 @@ function Basket() {
   const renders = {
     itemBasket: useCallback(
       item => {
-        const title = <Link to={`./catalog/${item._id}`}>{item.title}</Link>;
-        return <ItemBasket item={{ ...item, title }} onRemove={callbacks.removeFromBasket} />;
+        const title = <Link to={`/catalog/${item._id}`}>{item.title}</Link>;
+        return <ItemBasket item={{ ...item, title }} onRemove={callbacks.removeFromBasket} removeButtonLabel={t('buttonDelete')} />;
       },
       [callbacks.removeFromBasket],
     ),
   };
 
   return (
-    <ModalLayout title={t('basketTitle')} onClose={callbacks.closeModal}>
+    <ModalLayout title={t('basketTitle')} onClose={callbacks.closeModal} closeButtonLabel={t('buttonClose')}>
       <List list={select.list} renderItem={renders.itemBasket} />
       <BasketTotal sum={select.sum} />
     </ModalLayout>

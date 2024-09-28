@@ -12,6 +12,7 @@ class Modals extends StoreModule {
   }
 
   close() {
+    if (this.getState().name === null) return
     this.setState({ name: null }, `Закрытие модалки`);
   }
 }

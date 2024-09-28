@@ -1,0 +1,18 @@
+.MainMenu {
+  display: flex;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.MainMenu-right {
+  margin-left: auto;
+}
+
+.MainMenu a {
+  color: #0087E9;
+  text-decoration: underline;
+}
+
+.MainMenu a:hover {
+  color: rgb(85, 26, 139);
+}

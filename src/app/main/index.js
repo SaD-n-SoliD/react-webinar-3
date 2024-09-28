@@ -9,6 +9,8 @@ import useSelector from '../../store/use-selector';
 import Pagination from '../../components/pagination';
 import { Link, useParams } from 'react-router-dom';
 import { useTranslation } from '../../store/lang/use-translation';
+import LanguageSelect from '../../components/language-select';
+import MainMenu from '../../components/main-menu';
 
 function Main() {
   const store = useStore();
@@ -27,6 +29,7 @@ function Main() {
     list: state.catalog.list,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    lang: state.lang.current,
   }));
 
   const articlesPerPage = 10;
@@ -50,9 +53,9 @@ function Main() {
     item: useCallback(
       item => {
         const title = <Link to={`./catalog/${item._id}`}>{item.title}</Link>;
-        return <Item item={{ ...item, title }} onAdd={callbacks.addToBasket} />;
+        return <Item item={{ ...item, title }} onAdd={callbacks.addToBasket} addButtonLabel={t('buttonAdd')} />;
       },
-      [callbacks.addToBasket],
+      [callbacks.addToBasket, select.lang],
     ),
     withLink: useCallback(
       ({ num, children }) => {
@@ -64,8 +67,25 @@ function Main() {
 
   return (
     <PageLayout>
-      <Head title={t('mainPageTitle')} />
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
+      <Head title={t('mainPageTitle')} >
+        <LanguageSelect style={{ marginLeft: 'auto' }} />
+      </Head>
+      <MainMenu
+        basketTool={
+          <BasketTool
+            onOpen={callbacks.openModalBasket}
+            openButton={
+              <button onClick={callbacks.openModalBasket}>
+                {t('buttonOpen')}
+              </button>
+            }
+            amount={select.amount}
+            sum={select.sum}
+          />
+        }
+      >
+        <Link to={'/'}>{t('homePage')}</Link>
+      </MainMenu>
       <List list={select.list} renderItem={renders.item} />
       <Pagination pageCount={pageCount} currentPage={page} withAction={renders.withLink} />
     </PageLayout>

@@ -1,4 +1,3 @@
-import './style.css'
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import Main from './main';
 import Basket from './basket';
@@ -9,6 +8,7 @@ import ArticlePage from './article-page';
 import {
   createBrowserRouter,
   RouterProvider,
+  useLocation,
 } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -44,7 +44,14 @@ export default App;
 
 function withModal(Component) {
   return React.createElement(() => {
+    const store = useStore();
     const activeModal = useSelector(state => state.modals.name);
+
+    // При смене url'а закрываем модалки
+    const location = useLocation();
+    useEffect(() => {
+      return () => store.actions.modals.close()
+    }, [location])
 
     return (
       <>

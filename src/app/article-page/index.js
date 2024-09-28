@@ -7,12 +7,15 @@ import { useParams } from 'react-router-dom';
 import BasketTool from '../../components/basket-tool';
 import ArticleInfo from '../../components/article-info';
 import { useTranslation } from '../../store/lang/use-translation';
+import LanguageSelect from '../../components/language-select';
+import MainMenu from '../../components/main-menu';
+import { Link } from 'react-router-dom';
 
 
 function ArticlePage() {
   const store = useStore();
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   // route param :id
   const { id } = useParams();
@@ -38,12 +41,37 @@ function ArticlePage() {
 
   return (
     <PageLayout
-      head={<Head title={data.title || 'Загрузка...'} />}
+      head={
+        <Head title={data.title || 'Загрузка...'} >
+          <LanguageSelect style={{ marginLeft: 'auto' }} />
+        </Head>
+      }
     >
-      <BasketTool onOpen={callbacks.openModalBasket} amount={select.amount} sum={select.sum} />
+      <MainMenu
+        basketTool={
+          <BasketTool
+            openButton={
+              <button onClick={callbacks.openModalBasket}>
+                {t('buttonOpen')}
+              </button>
+            }
+            amount={select.amount}
+            sum={select.sum}
+          />
+        }
+      >
+        <Link to={'/'}>{t('homePage')}</Link>
+      </MainMenu>
+
       {data.title &&
         <ArticleInfo
           data={data}
+          labels={{
+            madeIn: t('madeIn'),
+            category: t('category'),
+            releasedInYear: t('releasedInYear'),
+            price: t('price'),
+          }}
           actions={
             <button onClick={callbacks.addToBasket} >{t('buttonAdd')}</button>
           }

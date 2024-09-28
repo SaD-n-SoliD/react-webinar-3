@@ -3,12 +3,9 @@ import PropTypes from 'prop-types';
 import { cn as bem } from '@bem-react/classname';
 import { numberFormat } from '../../utils';
 import './style.css';
-import { useTranslation } from '../../store/lang/use-translation';
 
 function Item(props) {
   const cn = bem('Item');
-
-  const { t } = useTranslation()
 
   const callbacks = {
     onAdd: e => props.onAdd(props.item._id),
@@ -20,7 +17,7 @@ function Item(props) {
       <div className={cn('title')}>{props.item.title}</div>
       <div className={cn('actions')}>
         <div className={cn('price')}>{numberFormat(props.item.price)} ₽</div>
-        <button onClick={callbacks.onAdd}>{t('buttonAdd')}</button>
+        <button onClick={callbacks.onAdd}>{props.addButtonLabel}</button>
       </div>
     </div>
   );
@@ -32,11 +29,13 @@ Item.propTypes = {
     title: PropTypes.node,
     price: PropTypes.number,
   }).isRequired,
+  addButtonLabel: PropTypes.string,
   onAdd: PropTypes.func,
 };
 
 Item.defaultProps = {
   onAdd: () => { },
+  addButtonLabel: 'Добавить',
 };
 
 export default memo(Item);

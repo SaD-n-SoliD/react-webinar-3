@@ -10,9 +10,3 @@
 .Head h1 {
   margin: 0;
 }
-
-.Head .lang {
-  margin-left: auto;
-  padding: 2px;
-  outline: none;
-}
