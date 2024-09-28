@@ -11,7 +11,7 @@ import { useTranslation } from '../../store/lang/use-translation';
 function Basket() {
   const store = useStore();
 
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   const select = useSelector(state => ({
     list: state.basket.list,
@@ -30,16 +30,29 @@ function Basket() {
     itemBasket: useCallback(
       item => {
         const title = <Link to={`/catalog/${item._id}`}>{item.title}</Link>;
-        return <ItemBasket item={{ ...item, title }} onRemove={callbacks.removeFromBasket} removeButtonLabel={t('buttonDelete')} />;
+        return (
+          <ItemBasket
+            item={{ ...item, title }}
+            labels={{
+              pcs: t('pcs'),
+              removeButton: t('buttonDelete'),
+            }}
+            onRemove={callbacks.removeFromBasket}
+          />
+        );
       },
       [callbacks.removeFromBasket],
     ),
   };
 
   return (
-    <ModalLayout title={t('basketTitle')} onClose={callbacks.closeModal} closeButtonLabel={t('buttonClose')}>
+    <ModalLayout
+      title={t('basketTitle')}
+      onClose={callbacks.closeModal}
+      closeButtonLabel={t('buttonClose')}
+    >
       <List list={select.list} renderItem={renders.itemBasket} />
-      <BasketTotal sum={select.sum} />
+      <BasketTotal sum={select.sum} label={t('amount')} />
     </ModalLayout>
   );
 }

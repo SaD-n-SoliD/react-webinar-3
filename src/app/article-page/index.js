@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 function ArticlePage() {
   const store = useStore();
 
-  const { t } = useTranslation();
+  const { t, tp } = useTranslation();
 
   // route param :id
   const { id } = useParams();
@@ -28,6 +28,7 @@ function ArticlePage() {
     shownArticle: state.catalog.shownArticle,
     amount: state.basket.amount,
     sum: state.basket.sum,
+    lang: state.lang.current,
   }));
 
   const callbacks = {
@@ -53,6 +54,12 @@ function ArticlePage() {
       }
       tool={
         <BasketTool
+          lang={select.lang}
+          labels={{
+            inBasket: t('inBasket'),
+            empty: t('empty'),
+            goods: tp('goods'),
+          }}
           openButton={
             <button onClick={callbacks.openModalBasket}>
               {t('buttonOpen')}

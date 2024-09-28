@@ -14,7 +14,7 @@ import MainMenu from '../../components/main-menu';
 
 function Main() {
   const store = useStore();
-  const { t } = useTranslation();
+  const { t, tp } = useTranslation();
 
   // Можно вынести в отдельный хук или хранить в сторе
   // Но сейчас хранение в адресной строке даёт преимущества, 
@@ -79,6 +79,12 @@ function Main() {
       }
       tool={
         <BasketTool
+          lang={select.lang}
+          labels={{
+            inBasket: t('inBasket'),
+            empty: t('empty'),
+            goods: tp('goods'),
+          }}
           openButton={
             <button onClick={callbacks.openModalBasket}>
               {t('buttonOpen')}
