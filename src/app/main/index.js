@@ -66,26 +66,29 @@ function Main() {
   };
 
   return (
-    <PageLayout>
-      <Head title={t('mainPageTitle')} >
-        <LanguageSelect style={{ marginLeft: 'auto' }} />
-      </Head>
-      <MainMenu
-        basketTool={
-          <BasketTool
-            onOpen={callbacks.openModalBasket}
-            openButton={
-              <button onClick={callbacks.openModalBasket}>
-                {t('buttonOpen')}
-              </button>
-            }
-            amount={select.amount}
-            sum={select.sum}
-          />
-        }
-      >
-        <Link to={'/'}>{t('homePage')}</Link>
-      </MainMenu>
+    <PageLayout
+      head={
+        <Head title={t('mainPageTitle')} >
+          <LanguageSelect style={{ marginLeft: 'auto' }} />
+        </Head>
+      }
+      menu={
+        <MainMenu>
+          <Link to={'/'}>{t('homePage')}</Link>
+        </MainMenu>
+      }
+      tool={
+        <BasketTool
+          openButton={
+            <button onClick={callbacks.openModalBasket}>
+              {t('buttonOpen')}
+            </button>
+          }
+          amount={select.amount}
+          sum={select.sum}
+        />
+      }
+    >
       <List list={select.list} renderItem={renders.item} />
       <Pagination pageCount={pageCount} currentPage={page} withAction={renders.withLink} />
     </PageLayout>

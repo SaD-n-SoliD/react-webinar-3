@@ -2,14 +2,11 @@ import { cn as bem } from "@bem-react/classname";
 import { memo } from "react";
 import './style.css';
 
-function MainMenu({ children, basketTool }) {
+function MainMenu({ children }) {
   const cn = bem('MainMenu')
   return (
     <div className={cn()}>
       {children}
-      <div className={cn('right')}>
-        {basketTool}
-      </div>
     </div>
   )
 }

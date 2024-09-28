@@ -46,23 +46,23 @@ function ArticlePage() {
           <LanguageSelect style={{ marginLeft: 'auto' }} />
         </Head>
       }
+      menu={
+        <MainMenu>
+          <Link to={'/'}>{t('homePage')}</Link>
+        </MainMenu>
+      }
+      tool={
+        <BasketTool
+          openButton={
+            <button onClick={callbacks.openModalBasket}>
+              {t('buttonOpen')}
+            </button>
+          }
+          amount={select.amount}
+          sum={select.sum}
+        />
+      }
     >
-      <MainMenu
-        basketTool={
-          <BasketTool
-            openButton={
-              <button onClick={callbacks.openModalBasket}>
-                {t('buttonOpen')}
-              </button>
-            }
-            amount={select.amount}
-            sum={select.sum}
-          />
-        }
-      >
-        <Link to={'/'}>{t('homePage')}</Link>
-      </MainMenu>
-
       {data.title &&
         <ArticleInfo
           data={data}

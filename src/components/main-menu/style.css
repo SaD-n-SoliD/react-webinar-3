@@ -1,11 +1,5 @@
 .MainMenu {
   display: flex;
-  padding: 20px;
-  font-size: 18px;
-}
-
-.MainMenu-right {
-  margin-left: auto;
 }
 
 .MainMenu a {
