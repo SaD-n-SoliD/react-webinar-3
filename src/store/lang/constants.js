@@ -10,6 +10,15 @@ export const config = {
       translation: {
         mainPageTitle: 'Магазин',
         basketTitle: 'Корзина',
+        inBasket: 'В корзине',
+        goods: {
+          one: 'товар',
+          few: 'товара',
+          many: 'товаров',
+        },
+        empty: 'пусто',
+        amount: 'Итого',
+        pcs: 'шт',
         homePage: 'Главная',
         buttonAdd: 'Добавить',
         buttonDelete: 'Удалить',
@@ -25,6 +34,14 @@ export const config = {
       translation: {
         mainPageTitle: 'Shop',
         basketTitle: 'Cart',
+        inBasket: 'Cart',
+        goods: {
+          one: 'item',
+          other: 'items',
+        },
+        empty: 'empty',
+        amount: 'Amount',
+        pcs: 'pcs',
         homePage: 'Home',
         buttonAdd: 'Add',
         buttonDelete: 'Delete',

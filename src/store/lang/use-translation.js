@@ -9,8 +9,14 @@ export function useTranslation() {
 
   const translation = config.resources[select.lang].translation
   const fallbackTranslation = config.resources[config.fallbackLang].translation
+
+  // get non-plural value
+  const getValue = (data) => data?.one || data?.other || data
+
   return ({
-    t: (key) => (translation[key] || fallbackTranslation[key])
+    t: (key) => getValue(translation[key]) || getValue(fallbackTranslation[key]) || '',
+    // Translate plural
+    tp: (key) => translation[key] || fallbackTranslation[key] || {},
   })
 
 }
