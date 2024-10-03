@@ -1,30 +1,32 @@
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
-import useInit from '../../hooks/use-init';
 import Navigation from '../../containers/navigation';
 import PageLayout from '../../components/page-layout';
 import Head from '../../components/head';
-import CatalogFilter from '../../containers/catalog-filter';
-import CatalogList from '../../containers/catalog-list';
 import LocaleSelect from '../../containers/locale-select';
+import LoginForm from '../../components/login-form';
 import LoginTool from '../../containers/login-tool';
+import useSelector from '../../hooks/use-selector';
 
 /**
  * Главная страница - первичная загрузка каталога
  */
-function Main() {
+function Login() {
   const store = useStore();
 
-  useInit(
-    () => {
-      store.actions.catalog.initParams();
-    },
-    [],
-    true,
-  );
+  const error = useSelector(state => state.auth.error)
 
   const { t } = useTranslate();
+
+  const callbacks = {
+    onLogin: useCallback((e) => {
+      const data = {}
+      for (const [key, value] of new FormData(e.currentTarget).entries())
+        data[key] = value
+      store.actions.auth.login(data)
+    })
+  }
 
   return (
     <PageLayout>
@@ -33,10 +35,9 @@ function Main() {
         <LocaleSelect />
       </Head>
       <Navigation />
-      <CatalogFilter />
-      <CatalogList />
+      <LoginForm t={t} onSubmit={callbacks.onLogin} error={error} />
     </PageLayout>
   );
 }
 
-export default memo(Main);
+export default memo(Login);

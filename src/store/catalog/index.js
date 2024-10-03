@@ -11,14 +11,18 @@ class CatalogState extends StoreModule {
   initState() {
     return {
       list: [],
+      // ? Создать отдельный модуль для категорий ?
+      categoryList: [],
       params: {
         page: 1,
         limit: 10,
         sort: 'order',
         query: '',
+        category: '',
       },
       count: 0,
       waiting: false,
+      categoryWaiting: false,
     };
   }
 
@@ -36,6 +40,7 @@ class CatalogState extends StoreModule {
       validParams.limit = Math.min(Number(urlParams.get('limit')) || 10, 50);
     if (urlParams.has('sort')) validParams.sort = urlParams.get('sort');
     if (urlParams.has('query')) validParams.query = urlParams.get('query');
+    if (urlParams.has('category')) validParams.category = urlParams.get('category');
     await this.setParams({ ...this.initState().params, ...validParams, ...newParams }, true);
   }
 
@@ -85,7 +90,11 @@ class CatalogState extends StoreModule {
       fields: 'items(*),count',
       sort: params.sort,
       'search[query]': params.query,
+      'search[category]': params.category,
     };
+    // Запрос с пустой категорией возвращает пустой массив. 
+    // Значение, приводящее к игнорированию параметра найти не вышло, поэтому удаляем категорию из строки запроса в случае категории 'все'
+    if (!params.category) delete apiParams['search[category]']
 
     const response = await fetch(`/api/v1/articles?${new URLSearchParams(apiParams)}`);
     const json = await response.json();
@@ -97,6 +106,28 @@ class CatalogState extends StoreModule {
         waiting: false,
       },
       'Загружен список товаров из АПИ',
+    );
+  }
+
+  async loadCategories() {
+    // Установка признака загрузки категорий
+    this.setState(
+      {
+        ...this.getState(),
+        categoryWaiting: true,
+      },
+      'Загружаем список категорий товаров из АПИ',
+    );
+
+    const response = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
+    const json = await response.json();
+    this.setState(
+      {
+        ...this.getState(),
+        categoryList: json.result.items,
+        categoryWaiting: false,
+      },
+      'Загружен список категорий товаров из АПИ',
     );
   }
 }
