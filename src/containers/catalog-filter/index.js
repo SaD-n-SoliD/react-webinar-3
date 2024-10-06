@@ -18,12 +18,12 @@ function CatalogFilter() {
     sort: state.catalog.params.sort,
     query: state.catalog.params.query,
     category: state.catalog.params.category,
-    categoryList: state.catalog.categoryList,
-    categoryWaiting: state.catalog.categoryWaiting,
+    categoryList: state.catalogCategories.list,
+    categoryWaiting: state.catalogCategories.waiting,
   }));
 
   useEffect(() => {
-    store.actions.catalog.loadCategories();
+    store.actions.catalogCategories.load();
   }, [])
 
   const callbacks = {

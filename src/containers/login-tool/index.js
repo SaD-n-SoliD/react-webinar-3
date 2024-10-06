@@ -1,4 +1,4 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect } from "react";
 import useTranslate from "../../hooks/use-translate";
 import SideLayout from "../../components/side-layout";
 import { Link } from "react-router-dom";
@@ -12,8 +12,13 @@ function LoginTool() {
   const { token, waiting, userData } = useSelector(state => ({
     token: state.auth.token,
     waiting: state.auth.waiting,
-    userData: state.auth.userData,
+    userData: state.account.data,
   }))
+
+  // Загрузить данные пользователя, если их ещё нет
+  useEffect(() => {
+    if (token && !userData?.profile?.name) store.actions.account.loadData(token)
+  }, [token])
 
   const { t } = useTranslate()
 
@@ -25,7 +30,7 @@ function LoginTool() {
 
   return (
     <Spinner active={waiting}>
-      <SideLayout side="end" gap="medium" style={{ padding: '10px 20px' }}>
+      <SideLayout side="end" gap="medium" style={{ padding: '10px 20px', borderBottom: '1px solid #DCDCDC' }}>
         {token && <Link to="/profile">{userData?.profile?.name}</Link>}
         {token && <button onClick={callbacks.logout} >{t('logout')}</button>}
         {!token && <Link to="/login"><button>{t('login')}</button></Link>}

@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect } from 'react';
 import useStore from '../../hooks/use-store';
 import useTranslate from '../../hooks/use-translate';
 import Navigation from '../../containers/navigation';
@@ -8,16 +8,29 @@ import LocaleSelect from '../../containers/locale-select';
 import LoginForm from '../../components/login-form';
 import LoginTool from '../../containers/login-tool';
 import useSelector from '../../hooks/use-selector';
+import { useNavigate } from 'react-router-dom';
 
-/**
- * Главная страница - первичная загрузка каталога
- */
 function Login() {
-  const store = useStore();
+  const token = useSelector(state => state.auth.token)
+  const navigate = useNavigate()
+
+  // Если залогинены: возвращаемся туда, откуда пришли
+  useLayoutEffect(() => {
+    if (token) navigate(-1)
+  })
+
+  const store = useStore()
+
+  // При размонтировании компонента очищаем ошибки авторизации
+  useEffect(() => {
+    return () => {
+      store.actions.auth.resetError()
+    }
+  }, [])
 
   const error = useSelector(state => state.auth.error)
 
-  const { t } = useTranslate();
+  const { t } = useTranslate()
 
   const callbacks = {
     onLogin: useCallback((e) => {

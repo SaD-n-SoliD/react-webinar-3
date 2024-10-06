@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { Routes, Route, useLocation, redirect } from 'react-router-dom';
 import useSelector from '../hooks/use-selector';
 import Main from './main';
@@ -19,6 +19,11 @@ function App() {
     activeModal: state.modals.name,
     token: state.auth.token,
   }));
+
+  // Восстанавливаем сессию
+  useLayoutEffect(() => {
+    store.actions.auth.restoreSession()
+  }, [])
 
   // Закрываем модалки при смене url'а
   const location = useLocation()

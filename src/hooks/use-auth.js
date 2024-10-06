@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import useSelector from "./use-selector";
-import useStore from "./use-store";
 
 export default function useAuth() {
-  const store = useStore()
-  store.auth.requireToken()
+  const token = useSelector(state => state.auth.token)
+  const navigate = useNavigate()
+  if (!token) navigate('/login')
+
+  return token
 }

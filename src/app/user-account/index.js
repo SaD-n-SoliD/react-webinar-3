@@ -9,12 +9,10 @@ import UserProfile from '../../components/user-profile';
 import useSelector from '../../hooks/use-selector';
 import Spinner from '../../components/spinner';
 import useStore from '../../hooks/use-store';
-import { useNavigate } from 'react-router-dom';
+import useAuth from '../../hooks/use-auth';
 
 function UserAccount() {
-  const token = useSelector(state => state.auth.token)
-  const navigate = useNavigate()
-  if (!token) navigate('/login')
+  const token = useAuth()
 
   const store = useStore()
 

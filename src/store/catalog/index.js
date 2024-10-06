@@ -11,8 +11,6 @@ class CatalogState extends StoreModule {
   initState() {
     return {
       list: [],
-      // ? Создать отдельный модуль для категорий ?
-      categoryList: [],
       params: {
         page: 1,
         limit: 10,
@@ -22,7 +20,6 @@ class CatalogState extends StoreModule {
       },
       count: 0,
       waiting: false,
-      categoryWaiting: false,
     };
   }
 
@@ -109,27 +106,6 @@ class CatalogState extends StoreModule {
     );
   }
 
-  async loadCategories() {
-    // Установка признака загрузки категорий
-    this.setState(
-      {
-        ...this.getState(),
-        categoryWaiting: true,
-      },
-      'Загружаем список категорий товаров из АПИ',
-    );
-
-    const response = await fetch(`/api/v1/categories?fields=_id,title,parent(_id)&limit=*`);
-    const json = await response.json();
-    this.setState(
-      {
-        ...this.getState(),
-        categoryList: json.result.items,
-        categoryWaiting: false,
-      },
-      'Загружен список категорий товаров из АПИ',
-    );
-  }
 }
 
 export default CatalogState;

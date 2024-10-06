@@ -12,9 +12,27 @@ class AuthState extends StoreModule {
     return {
       waiting: false,
       error: null,
-      token: localStorage.getItem('token') || null,
-      userData: { profile: { name: localStorage.getItem('userName') } },
+      token: null,
+      userData: {},
     };
+  }
+
+  restoreSession() {
+    this.setState({
+      ...this.getState(),
+      token: localStorage.getItem('token')
+    },
+      'Восстанавливаем сессию'
+    )
+  }
+
+  resetError() {
+    this.setState({
+      ...this.getState(),
+      error: null,
+    },
+      'Очищаем ошибки авторизации'
+    )
   }
 
   async login(data) {
@@ -31,7 +49,6 @@ class AuthState extends StoreModule {
         error: 'Ошибка авторизации',
       },
       processToken: (token) => { if (token) localStorage.setItem('token', token) },
-      processUserData: (userData) => { if (userData) localStorage.setItem('userName', userData.profile.name) },
     })
   }
 
@@ -48,7 +65,6 @@ class AuthState extends StoreModule {
         error: 'Ошибка деавторизации',
       },
       processToken: (_) => { localStorage.removeItem('token') },
-      processUserData: (_) => { localStorage.removeItem('userName') },
     })
   }
 
@@ -70,7 +86,6 @@ class AuthState extends StoreModule {
     },
     isJson = true,
     processToken = (token) => { },
-    processUserData = (userData) => { },
   }) {
     const uMethod = method.toUpperCase()
     this.setState(
@@ -92,14 +107,14 @@ class AuthState extends StoreModule {
       });
 
       const json = await response.json();
-      if (!response.ok) throw new Error(json.error.message || response.statusText);
+      // Можно вытащить все сообщения из issues, но предусмотрено ли их отображение?
+      if (!response.ok) throw new Error(json.error?.data?.issues[0]?.message || response.statusText);
       // console.log(json);
 
       const token = json?.result?.token
       const userData = json?.result?.user
-      // Обработка токена и данных пользователя
+      // Обработка токена 
       processToken(token)
-      processUserData(userData)
 
       this.setState(
         {
