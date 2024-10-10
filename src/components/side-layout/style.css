@@ -3,9 +3,18 @@
   flex-wrap: nowrap;
   justify-content: flex-start;
   padding: 0;
-  margin-left: -5px;
-  margin-right: -5px;
+  gap: 10px;
   align-items: center;
+}
+
+.SideLayout_direction_row {
+  flex-direction: row;
+}
+
+.SideLayout_direction_column {
+  flex-direction: column;
+  /* Можно, конечно ещё и модификатор align прикрутить, но лучше уж тогда вместо всего этого фарса использовать заготовленные общие классы аля tailwind.css */
+  align-items: start;
 }
 
 .SideLayout_side_start {
@@ -28,6 +37,8 @@
   padding: 20px;
 }
 
-.SideLayout-item {
-  margin: 0 5px;
+.SideLayout_padding_large {
+  padding: 20px 40px;
 }
+
+.SideLayout-item {}

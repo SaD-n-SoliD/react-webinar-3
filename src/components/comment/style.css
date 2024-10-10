@@ -1,0 +1,33 @@
+.Comment {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+}
+
+.Comment-head {
+  font-size: 12px;
+  display: flex;
+  gap: 10px;
+}
+
+.Comment-author {
+  font-weight: bold;
+}
+
+.Comment-dateTime {
+  color: #666;
+}
+
+.Comment-content {
+  font-size: 14px;
+}
+
+.Comment-actions > button {
+  background: inherit;
+  border: none;
+  outline: none;
+  color: #0087E9;
+  cursor: pointer;
+  padding: 0;
+}

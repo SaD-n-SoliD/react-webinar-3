@@ -2,11 +2,19 @@
   margin: 20px 0;
 }
 
-.Field-label {
+.Field_spacing_small > * {
+  margin-bottom: 10px;
 }
 
-.Field_input {
+.Field > *:last-child {
+  margin-bottom: 0;
 }
+
+.Field-label {
+  display: inline-block;
+}
+
+.Field-input {}
 
 .Field-error {
   color: #f00;

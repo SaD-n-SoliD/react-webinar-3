@@ -13,6 +13,8 @@ import TopHead from '../../containers/top-head';
 import { useDispatch, useSelector } from 'react-redux';
 import shallowequal from 'shallowequal';
 import articleActions from '../../store-redux/article/actions';
+import Comments from '../../containers/comments';
+import SideLayout from '../../components/side-layout';
 
 function Article() {
   const store = useStore();
@@ -49,9 +51,22 @@ function Article() {
         <LocaleSelect />
       </Head>
       <Navigation />
-      <Spinner active={select.waiting}>
-        <ArticleCard article={select.article} onAdd={callbacks.addToBasket} t={t} />
-      </Spinner>
+      <SideLayout padding="large" direction="column">
+
+        <Spinner active={select.waiting}>
+          <ArticleCard
+            style={{ marginBottom: 25 }}
+            article={select.article}
+            onAdd={callbacks.addToBasket}
+            t={t}
+          />
+        </Spinner>
+
+        <Spinner active={false}>
+          <Comments />
+        </Spinner>
+
+      </SideLayout>
     </PageLayout>
   );
 }

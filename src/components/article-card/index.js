@@ -5,10 +5,10 @@ import numberFormat from '../../utils/number-format';
 import './style.css';
 
 function ArticleCard(props) {
-  const { article, onAdd = () => {}, t = text => text } = props;
+  const { article, style, onAdd = () => { }, t = text => text } = props;
   const cn = bem('ArticleCard');
   return (
-    <div className={cn()}>
+    <div style={style} className={cn()}>
       <div className={cn('description')}>{article.description}</div>
       <div className={cn('prop')}>
         <div className={cn('label')}>Страна производитель:</div>
