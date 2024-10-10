@@ -1,0 +1,2 @@
+export const COMMENT_MARGIN_BOTTOM = 30
+export const COMMENT_MARGIN_LEFT = 30

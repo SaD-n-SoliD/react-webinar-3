@@ -48,6 +48,8 @@ export default {
   },
 
   reset: () => {
-    dispatch({ type: 'comments/reset' });
+    return (dispatch) => {
+      dispatch({ type: 'comments/reset' });
+    }
   },
 };

@@ -1,18 +1,16 @@
 import { memo } from 'react';
-import useSession from "../../hooks/use-session";
 import LoginRequireLabel from '../../components/login-require-label';
 import useTranslate from '../../hooks/use-translate';
 import CommentForm from '../../components/comment-form';
 import LoginLink from '../login-link';
 import Spinner from '../../components/spinner';
 
-function ProtectedCommentForm({ onSubmit, onClose, waiting, error, style }) {
-  const { exists, waiting: sWaiting } = useSession()
+function ProtectedCommentForm({ session, onSubmit, onClose, waiting, error, style }) {
   const { t } = useTranslate()
   let res = null
-
-  if (sWaiting) res = <div>Ждём...</div>
-  else if (!exists) res = (
+  console.log(session);
+  if (session.waiting) res = <div>Ждём...</div>
+  else if (!session.exists) res = (
     <LoginRequireLabel closeLabel={t('comment.cancel')} onClose={onClose}>
       <LoginLink>{t('comment.signIn')}</LoginLink>{t('comment.toReply')}
     </LoginRequireLabel>
