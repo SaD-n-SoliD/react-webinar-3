@@ -81,7 +81,6 @@ function Comments({ title }) {
         onReply={() => callbacks.onShowReplyForm(tree._id)}
         // Взаимное расположение комментариев
         style={{
-          marginLeft: COMMENT_MARGIN_LEFT * (level > 2),
           marginBottom: COMMENT_MARGIN_BOTTOM
         }}
         author={tree.author?.profile?.name}
@@ -99,7 +98,8 @@ function Comments({ title }) {
             tree.children.map((node) => (
               <div
                 key={'$' + node._id}
-                style={{ marginLeft: COMMENT_MARGIN_LEFT * (level > 2) }}
+                // Взаимное расположение комментариев
+                style={{ marginLeft: COMMENT_MARGIN_LEFT * (level > 1) }}
               >
                 {renders.recursiveComments(node, level + 1)}
 
