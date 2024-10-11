@@ -101,6 +101,7 @@ function Comments({ title }) {
                 // Взаимное расположение комментариев
                 style={{ marginLeft: COMMENT_MARGIN_LEFT * (level > 1) }}
               >
+                {/* Рендер вложенных комментариев */}
                 {renders.recursiveComments(node, level + 1)}
 
                 {(node._id === replyParent._id) &&

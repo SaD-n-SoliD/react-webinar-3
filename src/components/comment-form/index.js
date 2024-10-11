@@ -14,6 +14,7 @@ function CommentForm({ t, label, onSubmit, onReset, error }) {
         spacing="small"
       >
         <textarea
+          required
           className={cn('textarea')}
           name="comment"
         />
