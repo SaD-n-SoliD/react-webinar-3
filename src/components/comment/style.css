@@ -26,7 +26,7 @@
 .Comment-actions > button {
   background: inherit;
   border: none;
-  outline: none;
+  /* outline: none; */
   color: #0087E9;
   cursor: pointer;
   padding: 0;
