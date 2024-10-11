@@ -6,7 +6,7 @@ function LoginRequireLabel({ children, onClose, closeLabel }) {
   const cn = bem('LoginRequireLabel')
   return (
     <div className={cn()}>
-      <span>{children}</span>{onClose && '.'}
+      <span>{children}</span>{onClose && <>.&nbsp;</>}
       {onClose &&
         <button className={cn('button')} onClick={onClose}>
           {closeLabel}

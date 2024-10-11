@@ -3,14 +3,14 @@ import { cn as bem } from "@bem-react/classname"
 import { memo } from 'react';
 import Field from '../field';
 
-function CommentForm({ t, onSubmit, onReset, error }) {
+function CommentForm({ t, label, onSubmit, onReset, error }) {
   const cn = bem('CommentForm')
-  const submit = (e) => { e.preventDefault(); onSubmit(new FormData(e).get('comment')) }
+  const submit = (e) => { e.preventDefault(); onSubmit(new FormData(e.target).get('comment')) }
   return (
     <form className={cn()} onSubmit={submit} onReset={onReset}>
       <Field
-        label={t('comment.newComment')}
-        error={error?.toString()}
+        label={label || t('comment.newComment')}
+        error={error?.message || error}
         spacing="small"
       >
         <textarea
@@ -20,14 +20,8 @@ function CommentForm({ t, onSubmit, onReset, error }) {
       </Field>
       {/* <Field error={error} /> */}
       <div className={cn('actions')}>
-        <Field>
-          <button type="submit">{t('comment.send')}</button>
-        </Field>
-        {onReset &&
-          <Field>
-            <button type="reset">{t('comment.cancel')}</button>
-          </Field>
-        }
+        <button type="submit">{t('comment.send')}</button>
+        {onReset && <button type="reset">{t('comment.cancel')}</button>}
       </div>
     </form>
   )

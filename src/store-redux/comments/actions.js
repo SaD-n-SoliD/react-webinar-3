@@ -22,7 +22,7 @@ export default {
     };
   },
 
-  add: ({ text, parent }) => {
+  add: ({ text, parent, author }) => {
     return async (dispatch, getState, services) => {
       // Установка признака ожидания загрузки и сброс ошибки
       dispatch({ type: 'comments/add-start' });
@@ -36,10 +36,19 @@ export default {
             parent,
           })
         });
-        if (!res.ok) throw new Error('Ошибка создания комментария');
 
         // Комментарий добавлен успешно
-        dispatch({ type: 'comments/add-success', payload: { data: res.data.result } });
+        dispatch({
+          type: 'comments/add-success', payload: {
+            data: {
+              ...res.data.result,
+              author: {
+                ...res.data.result.author,
+                ...author,
+              }
+            }
+          }
+        });
       } catch (e) {
         //Ошибка добавления комментария
         dispatch({ type: 'comments/add-error', payload: { error: e } });

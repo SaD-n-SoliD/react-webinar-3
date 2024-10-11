@@ -4,11 +4,25 @@ import useTranslate from '../../hooks/use-translate';
 import CommentForm from '../../components/comment-form';
 import LoginLink from '../login-link';
 import Spinner from '../../components/spinner';
+import useSession from '../../hooks/use-session';
+import shallowequal from 'shallowequal';
+import { useSelector } from 'react-redux';
 
-function ProtectedCommentForm({ session, onSubmit, onClose, waiting, error, style }) {
+function ProtectedCommentForm({ isReply, onSubmit, onClose, style }) {
+  const select = useSelector(
+    state => ({
+      waiting: state.comments.addWaiting,
+      error: state.comments.addError,
+    }),
+    shallowequal,
+  );
+
   const { t } = useTranslate()
+  const session = useSession();
   let res = null
-  console.log(session);
+
+  const label = isReply ? t('comment.newReply') : t('comment.newComment')
+
   if (session.waiting) res = <div>Ждём...</div>
   else if (!session.exists) res = (
     <LoginRequireLabel closeLabel={t('comment.cancel')} onClose={onClose}>
@@ -16,12 +30,12 @@ function ProtectedCommentForm({ session, onSubmit, onClose, waiting, error, styl
     </LoginRequireLabel>
   )
   else res = (
-    <CommentForm t={t} onSubmit={onSubmit} onReset={onClose} error={error} />
+    <CommentForm label={label} t={t} onSubmit={onSubmit} onReset={onClose} error={select.error} />
   )
 
   return (
     <div style={style}>
-      <Spinner active={waiting}>
+      <Spinner active={select.waiting}>
         {res}
       </Spinner>
     </div>
