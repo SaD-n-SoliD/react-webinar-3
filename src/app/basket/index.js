@@ -1,4 +1,4 @@
-import { memo, useCallback } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { useDispatch, useStore as useStoreRedux } from 'react-redux';
 import useStore from '../../hooks/use-store';
 import useSelector from '../../hooks/use-selector';
@@ -20,6 +20,12 @@ function Basket() {
     sum: state.basket.sum,
   }));
 
+  const { t, lang } = useTranslate();
+
+  useEffect(() => {
+    store.actions.basket.refresh()
+  }, [lang])
+
   const callbacks = {
     // Удаление из корзины
     removeFromBasket: useCallback(_id => store.actions.basket.removeFromBasket(_id), [store]),
@@ -29,8 +35,6 @@ function Basket() {
       dispatch(modalsActions.close());
     }, [store]),
   };
-
-  const { t } = useTranslate();
 
   const renders = {
     itemBasket: useCallback(

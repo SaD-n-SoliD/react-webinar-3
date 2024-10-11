@@ -12,11 +12,18 @@ const config = {
       session: {
         // Названия токена в АПИ
         tokenHeader: 'X-Token',
+        langHeader: 'X-Lang',
       },
     },
   },
   api: {
     baseUrl: '',
+  },
+  i18n: {
+    // Логировать установку состояния?
+    log: !isProduction,
+    // Http заголовок для языка
+    langHeader: 'X-Lang',
   },
 };
 
