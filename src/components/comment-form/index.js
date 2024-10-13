@@ -3,9 +3,15 @@ import { cn as bem } from "@bem-react/classname"
 import { memo } from 'react';
 import Field from '../field';
 
-function CommentForm({ t, label, onSubmit, onReset, error }) {
+function CommentForm({ t, label, defaultValue, onSubmit, onReset, error }) {
   const cn = bem('CommentForm')
-  const submit = (e) => { e.preventDefault(); onSubmit(new FormData(e.target).get('comment')) }
+  const submit = (e) => {
+    e.preventDefault()
+    const data = new FormData(e.target).get('comment')
+    // Если комментарий пуст, не отправляем форму. Хотя у textarea и так есть required
+    if (!data) return
+    onSubmit(data)
+  }
   return (
     <form className={cn()} onSubmit={submit} onReset={onReset}>
       <Field
@@ -14,6 +20,7 @@ function CommentForm({ t, label, onSubmit, onReset, error }) {
         spacing="small"
       >
         <textarea
+          defaultValue={defaultValue}
           required
           className={cn('textarea')}
           name="comment"

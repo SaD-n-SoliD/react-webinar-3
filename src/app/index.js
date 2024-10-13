@@ -10,6 +10,7 @@ import Login from './login';
 import Profile from './profile';
 import Protected from '../containers/protected';
 import { useSelector as useSelectorRedux } from 'react-redux';
+import useServices from '../hooks/use-services';
 
 /**
  * Приложение
@@ -17,7 +18,9 @@ import { useSelector as useSelectorRedux } from 'react-redux';
  */
 function App() {
   const store = useStore();
+  const i18nService = useServices().i18n
   useInit(async () => {
+    i18nService.remind();
     await store.actions.session.remind();
   });
 

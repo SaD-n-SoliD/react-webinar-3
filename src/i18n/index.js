@@ -34,6 +34,12 @@ class I18n {
     }
   }
 
+  // Восстановление языковых настроек
+  remind() {
+    const lang = localStorage.getItem('lang')
+    this.setLocale(lang, 'Настройки языка восстановлены')
+  }
+
   getState() {
     return this.state;
   }
@@ -42,7 +48,7 @@ class I18n {
    * Установка состояния
    * @param newState {Object}
    */
-  setState(newState, description = 'setLang') {
+  setState(newState, description = '') {
     if (this.config.log) {
       console.group(
         `%c${'i18n.setState'} %c${description}`,
@@ -59,13 +65,17 @@ class I18n {
   }
 
 
-  setLocale(code) {
+  setLocale(code, description = 'setLang') {
     if (!(code in translations)) return
     this.setState({
       ...this.getState(),
       locale: code,
-    })
+    },
+      description
+    )
     this.services.api.setHeader(this.config.langHeader, code);
+    // Cохраняем текущий язык в localStorage
+    localStorage.setItem('lang', code);
   }
 
   /**

@@ -1,6 +1,6 @@
 import Comment from "../../components/comment"
 import useTranslate from "../../hooks/use-translate"
-import React, { memo, useEffect, useCallback, useState, useMemo } from 'react';
+import React, { memo, useEffect, useCallback, useState, useMemo, useRef } from 'react';
 import commentActions from '../../store-redux/comments/actions';
 import { useParams } from "react-router-dom";
 import shallowequal from "shallowequal";
@@ -9,7 +9,7 @@ import useSelectorOld from "../../hooks/use-selector";
 import { useDispatch } from "react-redux";
 import listToTree from "../../utils/list-to-tree";
 import ProtectedCommentForm from "../protected-comment-form";
-import { COMMENT_MARGIN_BOTTOM, COMMENT_MARGIN_LEFT } from "./constants";
+import { COMMENT_MARGIN_BOTTOM, COMMENT_MARGIN_LEFT, COMMENT_MAX_NESTING } from "./constants";
 
 function Comments({ title }) {
   const { t, lang } = useTranslate();
@@ -46,8 +46,13 @@ function Comments({ title }) {
       [replyParent, user]
     ),
     onShowReplyForm: useCallback(
-      (_id) => {
+      (_id, node) => {
         setReplyParent({ _id, _type: 'comment' })
+        // Скроллим к форме ответа на комментарий
+        node.parentElement.lastChild?.scrollIntoView({
+          block: 'center',
+          behavior: 'smooth',
+        })
       },
       []
     ),
@@ -60,7 +65,7 @@ function Comments({ title }) {
   }
 
   const renders = {
-    replyForm: (isReply) => {
+    replyForm: (isReply, originAuthor) => {
       const onClose = isReply ? callbacks.onCloseReplyForm : null
       const marginLeft = isReply ? COMMENT_MARGIN_LEFT : 0
       const marginBottom = COMMENT_MARGIN_BOTTOM
@@ -68,6 +73,7 @@ function Comments({ title }) {
       return (
         <ProtectedCommentForm
           isReply={isReply}
+          originAuthor={originAuthor}
           onSubmit={callbacks.onAdd}
           onClose={onClose}
           style={{ marginLeft, marginBottom }}
@@ -76,14 +82,17 @@ function Comments({ title }) {
     },
 
     recursiveComments: (tree, level = 1) => {
+      const authorName = tree.author?.profile?.name
+
       const comment = <Comment t={t} locale={lang}
         key={tree._id}
-        onReply={() => callbacks.onShowReplyForm(tree._id)}
+        onReply={(node) => callbacks.onShowReplyForm(tree._id, node)}
+        modifiers={{ author: { grey: authorName === user?.profile?.name } }}
         // Взаимное расположение комментариев
         style={{
           marginBottom: COMMENT_MARGIN_BOTTOM
         }}
-        author={tree.author?.profile?.name}
+        author={authorName}
         dateTime={tree.dateCreate}
         text={tree.text}
       />
@@ -99,15 +108,17 @@ function Comments({ title }) {
               <div
                 key={'$' + node._id}
                 // Взаимное расположение комментариев
-                style={{ marginLeft: COMMENT_MARGIN_LEFT * (level > 1) }}
+                style={{ marginLeft: COMMENT_MARGIN_LEFT * (level > 1 && level <= COMMENT_MAX_NESTING) }}
               >
                 {/* Рендер вложенных комментариев */}
                 {renders.recursiveComments(node, level + 1)}
 
-                {(node._id === replyParent._id) &&
-                  // Форма ответа на комментарий
-                  renders.replyForm(true)
-                }
+                <div>
+                  {(node._id === replyParent._id) &&
+                    // Форма ответа на комментарий
+                    renders.replyForm(true, node.author?.profile?.name)
+                  }
+                </div>
               </div>
             ))
           }

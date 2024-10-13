@@ -8,7 +8,7 @@ import useSession from '../../hooks/use-session';
 import shallowequal from 'shallowequal';
 import { useSelector } from 'react-redux';
 
-function ProtectedCommentForm({ isReply, onSubmit, onClose, style }) {
+function ProtectedCommentForm({ isReply, originAuthor, onSubmit, onClose, style }) {
   const select = useSelector(
     state => ({
       waiting: state.comments.addWaiting,
@@ -30,7 +30,14 @@ function ProtectedCommentForm({ isReply, onSubmit, onClose, style }) {
     </LoginRequireLabel>
   )
   else res = (
-    <CommentForm label={label} t={t} onSubmit={onSubmit} onReset={onClose} error={select.error} />
+    <CommentForm
+      t={t}
+      defaultValue={originAuthor && ('Мой ответ для ' + originAuthor)}
+      label={label}
+      onSubmit={onSubmit}
+      onReset={onClose}
+      error={select.error}
+    />
   )
 
   return (
