@@ -1,4 +1,17 @@
 # Основной README файл
-### [ДЗ №1](https://github.com/ylabio/react-webinar-3/pull/89)    (Ссылка на Pull request)
-### [ДЗ №2](https://github.com/ylabio/react-webinar-3/pull/193)    (Ссылка на Pull request)
-### [ДЗ №3](https://github.com/ylabio/react-webinar-3/pull/297)    (Ссылка на Pull request)
+Ветка main содержит вступительное задание курса
+Тема задания - авторизация
+
+# Стек:
+### React, Next
+
+## [Демо на Vercel](https://ylab-hw.vercel.app/)
+
+## Данные, под которыми можно залогиниться 
+
+### User1
+Johny_doe@<i></i>fake.com <br/>
+Lullaby_for
+### User2
+Jann@<i></i>fake.com <br/>
+a_fat_jellyfish
